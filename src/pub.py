@@ -14,26 +14,40 @@ def talker():
 	while not rospy.is_shutdown():
 		theta=rospy.get_time()
 
-		#coordinates
-		r = 1
+
+		r = 10
+		theta = 0
+		message.header.frame_id = "map"
 		
-		#Limites (Max value and Min value)
-		#x varible between and 1 and -1
-		#y variable between 0 and 2 pie
+
 
 		
 
 		#hello_str = "hello world %s" % rospy.get_time()
 
-		while theta != 2*(math.pi)
-			message.pose.position.x = math.sin(theta)
+		while theta < 2*(math.pi):
+			message.pose.position.x = theta
 			message.pose.position.y = math.sin(theta)
-			theta = theta + 0.1		
+			print(message)
+			#rospy.loginfo(hello_str)
+			pub.publish(message)
+			rate.sleep()
+			theta = theta + 0.1
+
+		while theta >= 0:
+			message.pose.position.x = theta
+			message.pose.position.y = math.sin(-theta)
+			print(message)
+			#rospy.loginfo(hello_str)
+			pub.publish(message)
+			rate.sleep()
+			theta = theta - 0.1
+			print(message)
 
 
 		#message.pose.position.x = r*(math.sin(theta))
 		#message.pose.position.y = r*(math.sin(theta))
-		message.header.frame_id = "map"
+		
 		print(message)
 		#rospy.loginfo(hello_str)
 		pub.publish(message)
