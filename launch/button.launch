@@ -1,0 +1,12 @@
+<launch>
+
+	<node pkg="tp_ros_zaheer" name="pub" type="pub.py"/>
+
+	<node pkg="tp_ros_zaheer" name="button_state" type="button_node.py"  output="screen">
+		<remap from="button_state" to="chatter"/>
+	</node>
+
+	<node pkg="tp_ros_zaheer" name="chatter" type="publisher.py" />
+	<node name="rviz" pkg="rviz" />
+
+</launch>
