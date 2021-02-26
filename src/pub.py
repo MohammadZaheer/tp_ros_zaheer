@@ -3,33 +3,26 @@
 import rospy
 from geometry_msgs.msg import PoseStamped
 import math
+from Tkinter import *
+from std_msgs.msg import Bool
+import time
 
-def talker():
+def callback(data):
 	pub = rospy.Publisher('chatter', PoseStamped, queue_size=10)
-	rospy.init_node('talker', anonymous=True)
 	rate = rospy.Rate(15) # 15
 	message = PoseStamped()
 	message.pose.position.x = 22
 	print(message)
-	while not rospy.is_shutdown():
-		theta=rospy.get_time()
 
-
-		r = 10
-		theta = 0
-		message.header.frame_id = "map"
-		
-
-
-		
-
-		#hello_str = "hello world %s" % rospy.get_time()
-
+	r = 10
+	theta = 0
+	message.header.frame_id = "map"	
+	
+	if(data.data == True):
 		while theta < 2*(math.pi):
 			message.pose.position.x = theta
 			message.pose.position.y = math.sin(theta)
 			print(message)
-			#rospy.loginfo(hello_str)
 			pub.publish(message)
 			rate.sleep()
 			theta = theta + 0.1
@@ -38,23 +31,16 @@ def talker():
 			message.pose.position.x = theta
 			message.pose.position.y = math.sin(-theta)
 			print(message)
-			#rospy.loginfo(hello_str)
 			pub.publish(message)
 			rate.sleep()
 			theta = theta - 0.1
 			print(message)
 
+def listener():
+	rospy.init_node('listen', anonymous=True)
+	rospy.Subscriber("button_state", Bool, callback)
 
-		#message.pose.position.x = r*(math.sin(theta))
-		#message.pose.position.y = r*(math.sin(theta))
-		
-		print(message)
-		#rospy.loginfo(hello_str)
-		pub.publish(message)
-		rate.sleep()
+	rospy.spin()
 
 if __name__ == '__main__':
-	try:
-		talker()
-	except rospy.ROSInterruptException:
-		pass
+	listener()
